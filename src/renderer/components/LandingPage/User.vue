@@ -1,7 +1,6 @@
 <template>
     <div class='user' :class="{authed:this.authed}" @click="login">
         <avatar :src.sync="avatar"></avatar>
-    
     </div>
 </template>
 
@@ -72,6 +71,12 @@ export default {
     animation-name: moveright;
     animation-duration: 2s;
     right: -5vh;
+}
+
+.enter{
+    position: absolute;
+    right: 0;
+    top: 1vh;
 }
 
 @keyframes moveright {
