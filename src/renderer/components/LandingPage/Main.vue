@@ -40,6 +40,9 @@ export default {
         start() {
             this.logs = [];
             this.crepeat = 0;
+            if(this.message.indexOf('##')<0) {
+                this.message+=" ##";
+            }
             this.timer = setInterval(this.tick, 1000);
         },
         tick() {
