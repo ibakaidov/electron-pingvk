@@ -12,6 +12,7 @@ module.exports = {
         logs:[]
     },
     friends:{
-        
+        search:'',
+        list:[]        
     }
 };

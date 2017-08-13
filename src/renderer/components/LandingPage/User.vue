@@ -1,7 +1,6 @@
 <template>
     <div class='user' :class="{authed:this.authed}" @click="login">
-        <img v-if="this.authed" class="avatar" :src="avatar"></img>
-        <img v-else class="avatar" src="~@/assets/dog.png"></img>
+        <avatar :src.sync="avatar"></avatar>
         
     </div>
 </template>
@@ -12,6 +11,8 @@ import OAuthVK from 'electron-oauth-vk';
 import vk from 'api.vk.com';
 
 import store from '@/store.js';
+
+  import Avatar from '@/components/LandingPage/Avatar';
 
  
 const options = {
@@ -25,6 +26,7 @@ export default {
     data () {
         return store.user;
     },
+    components:{Avatar},
     methods:{
         login(){
             if (this.authed) {
@@ -66,12 +68,5 @@ export default {
     }
     .authed{
         width: 5vh;
-    }
-    .avatar {
-        width: 4vh;
-        height: 4vh;
-        border-radius: 4vh;
-        margin-left: 0.5vh;
-        margin-top: 0.5vh;
     }
 </style>
