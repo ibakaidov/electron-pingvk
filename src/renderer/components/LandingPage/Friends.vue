@@ -5,7 +5,7 @@
                 <input type="text" placeholder="Введите имя..." class="form-control" id="search" v-model="search">
             </div>
             <ul class="friends_list">
-                <li v-for="item in list" is="card" :friend.sync="item" ></li>
+                <li v-for="item in friends" is="card" :friend.sync="item" ></li>
             </ul>
   </div>
 </template>
@@ -23,6 +23,16 @@ export default {
       return store.friends;
   },
   components:{Card},
+  computed:{
+      friends(){
+          if (this.search == ''){
+              return this.list;
+          }
+          return this.list.filter((v)=>{
+              return v.name.toLowerCase().indexOf(this.search.toLowerCase())>-1;
+          })
+      }
+  },
   methods: {
       getFriends(){
             vk('friends.get', { order:'hints', fields: 'photo_100,can_write_private_message,domain',  access_token: store.user.token }, (err, res) => {
