@@ -5,7 +5,10 @@
     </header>
     <main>
         <h1 v-if="!this.user.authed" class="notauth">Вы не вошли </h1>
-        <main-block v-else></main-block>
+        <div v-else>
+          <friends></friends>
+          <main-block></main-block>
+          </div>
     </main>
     <footer>
 
@@ -16,12 +19,13 @@
 <script>
   import store from '@/store.js';
   import User from '@/components/LandingPage/User';
+  import Friends from '@/components/LandingPage/Friends';
   import MainBlock from '@/components/LandingPage/Main';
   export default {
     data () {
       return store;
     },
-    components: { User, MainBlock },
+    components: { User, MainBlock, Friends },
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
