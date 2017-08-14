@@ -62,6 +62,7 @@ export default {
             this.logs = [];
             this.crepeat = 0;
             if (this.message.indexOf('##') < 0) {
+                
                 this.message += " ##";
             }
             this.timer = setInterval(this.tick, this.timeout * 1000);
@@ -74,9 +75,14 @@ export default {
             let message = this.message.replace('##', this.crepeat);
 
             vk('messages.send', { message, domain: this.domain, access_token: store.user.token }, (err, res) => {
-                console.log(err, res);
-            })
+                if(err){
+            this.logs.push('Сообщения не отправленно, сработал спам фильтр :(');
+
+                    return;
+                }
             this.logs.push(message);
+                
+            })
             this.crepeat++;
             if (this.crepeat == this.repeats) {
                 this.stop();
