@@ -13,13 +13,21 @@
                 <label for="repeats">Сколько раз пингуем:</label>
                 <input type="number" class="form-control" id="repeats" v-model="repeats">
             </div>
-
+    
             <div class="form-group">
-                <label for="timeout">С какой частотой пингуем (советуем указывать больше двух секунд):</label>
+                <label for="timeout">С какой частотой пингуем (советуем указывать больше двух секунд, если пингуете больше 20 раз):</label>
                 <input type="number" class="form-control" id="timeout" v-model="timeout">
             </div>
-            <button v-if="!this.work" type="button" class="btn btn-primary" @click="start">Начать</button>
-            
+            <div class="form-group">
+    
+                <button v-if="!this.work" type="button" class="btn btn-primary" @click="start">Начать</button>
+                <button v-else type="button" class="btn btn-danger" @click="stop">Остановить</button>
+            </div>
+            <div class="form-group">
+                <div class="progress-bar" role="progressbar" :aria-valuenow="crepeat" aria-valuemin="0" :aria-valuemax="repeats" :style="{width:this.progressWidth}">
+                </div>
+            </div>
+    
         </form>
         <ping-log :logs.sync='logs'></ping-log>
     </div>
@@ -42,15 +50,25 @@ export default {
         PingLog
     },
 
+    computed: {
+        progressWidth() {
+            return (this.crepeat / this.repeats) * 100 + "%";
+        }
+    },
+
     methods: {
         start() {
             this.work = true;
             this.logs = [];
             this.crepeat = 0;
-            if(this.message.indexOf('##')<0) {
-                this.message+=" ##";    
+            if (this.message.indexOf('##') < 0) {
+                this.message += " ##";
             }
-            this.timer = setInterval(this.tick, this.timeout*1000);
+            this.timer = setInterval(this.tick, this.timeout * 1000);
+        },
+        stop(){
+            clearInterval(this.timer);
+            this.work=false;
         },
         tick() {
             let message = this.message.replace('##', this.crepeat);
@@ -61,7 +79,7 @@ export default {
             this.logs.push(message);
             this.crepeat++;
             if (this.crepeat == this.repeats) {
-                clearInterval(this.timer);
+                this.stop();
             }
         }
     }
