@@ -6,7 +6,16 @@
 
 <script>
 export default {
-  props:['logs']
+  props:['logs'],
+  watch:{
+    logs(v){
+      setTimeout(()=> {
+      this.$el.scrollTop = this.$el.scrollHeight;
+        
+      }, 0);
+      return v;
+    }
+  }
 }
 </script>
 
@@ -19,7 +28,7 @@ export default {
     border-radius: 5px;
     padding: 5px;
     background: #ddd;
-    height: 60vh;
+    height: 40vh;
     overflow: scroll;
     margin: 10px;
     margin-left: 0;

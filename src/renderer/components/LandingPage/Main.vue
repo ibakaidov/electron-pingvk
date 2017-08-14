@@ -6,14 +6,20 @@
                 <input type="text" class="form-control" id="domain" v-model="domain">
             </div>
             <div class="form-group">
-                <label for="message">Каким сообщением пингуем:</label>
+                <label for="message">Каким сообщением пингуем (Для выведения цифр очередности добавьте ##):</label>
                 <input type="text" class="form-control" id="message" v-model="message">
             </div>
             <div class="form-group">
                 <label for="repeats">Сколько раз пингуем:</label>
                 <input type="number" class="form-control" id="repeats" v-model="repeats">
             </div>
-            <button type="button" class="btn btn-primary" @click="start">Начать</button>
+
+            <div class="form-group">
+                <label for="timeout">С какой частотой пингуем (советуем указывать больше двух секунд):</label>
+                <input type="number" class="form-control" id="timeout" v-model="timeout">
+            </div>
+            <button v-if="!this.work" type="button" class="btn btn-primary" @click="start">Начать</button>
+            
         </form>
         <ping-log :logs.sync='logs'></ping-log>
     </div>
@@ -38,12 +44,13 @@ export default {
 
     methods: {
         start() {
+            this.work = true;
             this.logs = [];
             this.crepeat = 0;
             if(this.message.indexOf('##')<0) {
                 this.message+=" ##";    
             }
-            this.timer = setInterval(this.tick, 1000);
+            this.timer = setInterval(this.tick, this.timeout*1000);
         },
         tick() {
             let message = this.message.replace('##', this.crepeat);
