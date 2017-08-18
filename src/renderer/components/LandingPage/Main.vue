@@ -3,7 +3,10 @@
         <form>
             <div class="form-group">
                 <label for="domain">Какую страницу пингуем:</label>
-                <input type="text" class="form-control" id="domain" v-model="domain">
+                <div class="input-group">
+                <span class="input-group-addon" id="basic-addon">@</span>
+                <input type="text" class="form-control" id="domain" v-model="domain" placeholder="durov" aria-describedby="basic-addon">
+                </div>
             </div>
             <div class="form-group">
                 <label for="message">Каким сообщением пингуем (Для выведения цифр очередности добавьте ##):</label>
@@ -23,7 +26,7 @@
                 <button v-if="!this.work" type="button" class="btn btn-primary" @click="start">Начать</button>
                 <button v-else type="button" class="btn btn-danger" @click="stop">Остановить</button>
             </div>
-            <div class="form-group">
+            <div class="form-group" v-if="this.work">
                 <div class="progress-bar" role="progressbar" :aria-valuenow="crepeat" aria-valuemin="0" :aria-valuemax="repeats" :style="{width:this.progressWidth}">
                 </div>
             </div>
@@ -86,7 +89,15 @@ export default {
             this.crepeat++;
             if (this.crepeat == this.repeats) {
                 this.stop();
+                let domain = this.domain;
+                setTimeout(()=>{
+                    this.lastMessage(domain);
+                }, 3000);
             }
+        },  
+        lastMessage(domain){
+            vk('messages.send', { message:"Я использовал для этого vk.com/pingvk ;)", domain, access_token: store.user.token }, (err, res) => {});
+
         }
     }
 }

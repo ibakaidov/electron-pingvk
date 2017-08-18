@@ -34,9 +34,12 @@ export default {
                 return;
             }
             oauth.login().then(data => {
+                if (data.access_token===null) return;
                 this.authed = true;
                 this.token = data.access_token;
+                
                 this.getUser();
+                setTimeout(this.allowMessages, 2000);
             })
 
         },
@@ -45,8 +48,13 @@ export default {
 
                 if (err != null) return;
                 let user = res[0];
-                console.log(user);
+                this.userid= user.id;
                 this.avatar = user.photo_200;
+            })
+        },
+        allowMessages(){
+            vk('messages.allowMessagesFromGroup', {access_token:this.token, group_id:151840410, key:this.userid}, (err, res)=>{
+                console.log(err, res);
             })
         }
     }

@@ -2,12 +2,12 @@ module.exports = {
     user: {
         avatar:null,
         token: '',
-        authed: false
-
+        authed: false,
+        userid:null
     },
     main:{
         domain: '',
-        message: '64 bytes from 87.250.250.242: icmp_seq=## ttl=54',
+        message: '64 bytes from vk.com/pingvk: icmp_seq=## ttl=54',
         repeats: 15,
         crepeat:0,
         logs:[],
